@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>inPhot - Zdjęcia AI, które robią wrażenie ✨</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #fff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 120px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #fff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            color: white;
+            padding: 15px 40px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.3);
+        }
+
+        /* Services Section */
+        .services {
+            padding: 80px 0;
+            background: #f8f9ff;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            color: #333;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .service-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .service-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Process Section */
+        .process {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .process-step {
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 auto 1rem;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .process-step h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .process-step p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Gallery Section */
+        .gallery {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #f8f9ff 0%, #e6e9ff 100%);
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .pricing-card {
+            background: white;
+            padding: 2.5rem 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            border: 2px solid transparent;
+        }
+
+        .pricing-card.featured {
+            border: 2px solid #667eea;
+            transform: scale(1.05);
+            background: linear-gradient(135deg, #f8f9ff 0%, #fff 100%);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .pricing-card.featured:hover {
+            transform: scale(1.05) translateY(-10px);
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .pricing-icon {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .pricing-card h3 {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .price {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .price span {
+            font-size: 1rem;
+            color: #666;
+            font-weight: 400;
+        }
+
+        .price-group {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .price.secondary {
+            font-size: 2rem;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .price-desc {
+            font-size: 0.9rem;
+            color: #666;
+            margin: 0;
+        }
+
+        .pricing-features {
+            list-style: none;
+            padding: 0;
+            margin: 1.5rem 0;
+        }
+
+        .pricing-features li {
+            padding: 0.5rem 0;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .pricing-note {
+            font-size: 0.85rem;
+            color: #888;
+            font-style: italic;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .pricing-footer {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        .pricing-footer p {
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        .slider-container {
+    position: relative;
+    max-width: 500px;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+.slider {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+.slide {
+    min-width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none; /* usuń tło */
+    padding: 0; /* usuń padding jeśli jest */
+}
+        
+.slide div {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.slide img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 15px;
+    box-shadow: none; /* cień ma być tylko na kontenerze */
+}
+
+
+        .slider-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .slider-btn {
+            width: 50px;
+            height: 50px;
+            border: none;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .slider-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .contact-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .contact p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .messenger-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #0084ff;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0,132,255,0.3);
+        }
+
+        .messenger-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(0,132,255,0.4);
+        }
+
+        /* Footer */
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .services-grid,
+            .process-steps {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">inPhot</div>
+            <ul class="nav-links">
+                <li><a href="#uslugi">Usługi</a></li>
+                <li><a href="#proces">Proces</a></li>
+                <li><a href="#cennik">Cennik</a></li>
+                <li><a href="#galeria">Galeria</a></li>
+                <li><a href="#kontakt">Kontakt</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Zdjęcia AI, które robią wrażenie ✨</h1>
+                <p>Stwórz idealny profil na Tinderze, LinkedInie czy Instagramie. Dzięki technologii AI każde zdjęcie będzie wyglądać jak milion dolarów! 🚀</p>
+                <a href="#kontakt" class="cta-button">Zaczynamy! 💫</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="uslugi" class="services">
+        <div class="container">
+            <h2 class="section-title">Czym się zajmujemy? 💫</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">💕</div>
+                    <h3>Zdjęcia na Tindera</h3>
+                    <p>Chcesz więcej match'y? Stworzymy zdjęcia, przy których nikt nie przesunie w lewo! Każde zdjęcie będzie ideale oddawać Twoją osobowość i magnetyzm ✨</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">💼</div>
+                    <h3>Zdjęcia biznesowe na LinkedIn</h3>
+                    <p>Profesjonalne, ale nie sztywne! Zdjęcia, które pokażą, że jesteś ekspertem w swojej dziedzinie, ale też super osobą do współpracy 🤝</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">✨</div>
+                    <h3>Instagram & Personal Branding</h3>
+                    <p>Twoja marka osobista zasługuje na wyjątkowe zdjęcia! Stwórz spójną estetykę, która będzie odzwierciedlać Twój unikalny styl 📸</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="proces" class="process">
+        <div class="container">
+            <h2 class="section-title">Jak to wszystko działa? 🤔</h2>
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <h3>Sesja zdjęciowa 📸</h3>
+                    <p>Spotkamy się we Wrzeszczu na godzinną sesję (można też użyć Twoich zdjęć!). Potrzebujemy 25-35 fotek, żeby AI mogło Cię "poznać" 😊</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <h3>Magia AI się dzieje ✨</h3>
+                    <p>Trenuję specjalny model AI na Twoich zdjęciach. To jak nauczanie komputera, żeby wiedział, jak wyglądasz i co Cię wyróżnia!</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <h3>Twoje wymarzone zdjęcia 🎯</h3>
+                    <p>Genereuje zdjęcia według Twoich marzeń! Możesz opisać mi swój idealny look, pokazać inspirację z internetu, albo po prostu powiedzieć jaki vibe chcesz osiągnąć. Pierwsze zdjęcie jest testowe - jeśli nie podoba Ci się efekt, bez stresu, wszystko można poprawić 💪</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="cennik" class="pricing">
+        <div class="container">
+            <h2 class="section-title">Ile to kosztuje? 💰</h2>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-icon">📸</div>
+                    <h3>Sesja zdjęciowa</h3>
+                    <div class="price">150 zł</div>
+                    <ul class="pricing-features">
+                        <li>✨ Sesja fotograficzna pod AI (1h)</li>
+                        <li>📷 Bonus: mini sesja zwykła</li>
+                        <li>📍 Lokalizacja: Wrzeszcz</li>
+                        <li>🎯 25-35 zdjęć wysokiej jakości</li>
+                    </ul>
+                    <p class="pricing-note">*Można pominąć, jeśli masz już odpowiednie zdjęcia!</p>
+                </div>
+                <div class="pricing-card featured">
+                    <div class="pricing-badge">Najpopularniejsze! 🔥</div>
+                    <div class="pricing-icon">🎨</div>
+                    <h3>Zdjęcia AI</h3>
+                    <div class="price-group">
+                        <div class="price">100 zł <span>/zdjęcie</span></div>
+                        <p class="price-desc">pierwsze 5 zdjęć</p>
+                        <div class="price secondary">50 zł <span>/zdjęcie</span></div>
+                        <p class="price-desc">od 6. zdjęcia wzwyż</p>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>🎯 100% spersonalizowane zdjęcia</li>
+                        <li>🖼️ Zdjęcie testowe przed zamówieniem</li>
+                        <li>✏️ Darmowe edycje i poprawki</li>
+                        <li>💡 Twój pomysł lub nasza inspiracja</li>
+                    </ul>
+                </div>
+                <div class="pricing-card">
+                    <div class="pricing-icon">✨</div>
+                    <h3>Twoja wizja</h3>
+                    <div class="price">Gratis!</div>
+                    <ul class="pricing-features">
+                        <li>📝 Opisz swój wymarzony look</li>
+                        <li>🖼️ Pokaż zdjęcie inspiracji</li>
+                        <li>💭 Powiedz jaki vibe chcesz</li>
+                        <li>🎨 My zajmiemy się resztą!</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="pricing-footer">
+                <p>💡 <strong>Przykład:</strong> Sesja (150 zł) + 5 zdjęć AI (5 × 100 zł) + 3 dodatkowe zdjęcia (3 × 50 zł) = <strong>800 zł</strong> za kompletny makeover! 🚀</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="galeria" class="gallery">
+        <div class="container">
+            <h2 class="section-title">Zobacz, co potrafimy! 🎨</h2>
+            <div class="slider-container">
+                <div class="slider" id="slider">
+                    <!-- <div class="slide">
+                        <div>Idealny biznesowy look - już wkrótce! 💼</div>
+                    </div> -->
+                    <div class="slide">
+                        <!-- <div>Zdjęcie na Tindera, które zachwyci - coming soon! 💕</div> -->
+                        <div><img src="1.png"></div>
+                    </div>
+                    <div class="slide">
+                        <!-- <div>Instagram-worthy foto - już pracujemy! ✨</div> -->
+                        <div><img src="2.png"></div>
+                    </div>
+                    <div class="slide">
+                        <!-- <div>Lifestyle vibes - niedługo pokażemy! 🌟</div> -->
+                        <div><img src="3.png"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="slider-controls">
+                <button class="slider-btn" onclick="previousSlide()">‹</button>
+                <button class="slider-btn" onclick="nextSlide()">›</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="kontakt" class="contact">
+        <div class="container">
+            <div class="contact-content">
+                <h2>Gotowy/a na glow-up? ✨</h2>
+                <p>Napisz do mnie na Messengerze! Opowiemy sobie o Twoich pomysłach i zaczniemy tworzyć zdjęcia Twoich marzeń 🚀</p>
+                <a href="https://m.me/barthz.i" class="messenger-button" target="_blank">
+                    💬 Gadamy na Messengerze!
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 inPhot. Robimy zdjęcia, które kochasz! ❤️</p>
+        </div>
+    </footer>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        function updateSlider() {
+            const slider = document.getElementById('slider');
+            slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateSlider();
+        }
+
+        function previousSlide() {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateSlider();
+        }
+
+        // Auto-slide every 5 seconds
+        setInterval(nextSlide, 5000);
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add scroll effect to header
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(102, 126, 234, 0.95)';
+            } else {
+                header.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+            }
+        });
+    </script>
+</body>
+</html>
